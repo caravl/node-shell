@@ -1,18 +1,21 @@
 // Output a prompt
+var command = require('./commands.js');
+
 process.stdout.write('prompt > ');
 
 //The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', function (data) {
-  var cmd = data.toString().trim(); // remove the newline
-  if (cmd === 'pwd'){
-    process.stdout.write(process.argv[1]);
-  } else if (cmd === 'date'){
-    process.stdout.write(Date().toString());
-  } else {
-    process.stdout.write('You typed: ' + cmd);
-  }
+  var cmds = data.toString().trim().split(' ');// remove the newline
+  var cmd = cmds[0];
+    // 
+    // cmd === 'pwd' || cmd === 'date' || cmd === 'ls' || cmd === 'echo' || cmd === 'cat'){
+    command[cmd](cmds.slice(1));
 
-  process.stdout.write('\nprompt > ');
+    // process.stdout.write('You typed: ' + cmd);
+    // process.stdout.write('\nprompt > ');
+
+
+
 
 });
 
