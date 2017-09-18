@@ -14,7 +14,7 @@ module.exports = {
     fs.readdir('.', function(err, files) {
       if (err) throw err;
       files.forEach(function(file) {
-        output += file.toString() + '/n';
+        output += file.toString() + '\n';
       });
       done(output);
   });
