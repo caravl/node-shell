@@ -11,21 +11,24 @@ process.stdin.on('data', function (data) {
   let commandNum = 0;
   const cmdString = data.toString().trim();
   const cmdList = cmdString.split(/\s*\|\s*/g); // any amount of whitespace, pipe, any amount of whitespace
-  let singleCommand = cmdList[commandNum].split(' ');
+  let singleCommand = cmdList[commandNum].split(' ')[0];
+  let singleComArgs = cmdList[commandNum].split(' ').slice(1);
 
 
+  //  REVIEW VIDEO: could pass arguments as string by doing .join(' ')
   const done = function(output){
     if (commandNum === cmdList.length - 1) {
       process.stdout.write(output);
       process.stdout.write(prompt);
     } else {
       commandNum++;
-      singleCommand = cmdList[commandNum].split(' ');
-      command[singleCommand[0]](output, singleCommand.slice(1), done);
+      singleCommand = cmdList[commandNum].split(' ')[0];
+      singleComArgs = cmdList[commandNum].split(' ').slice(1);
+      command[singleCommand](output, singleComArgs, done);
     }
   };
 
 
-  command[singleCommand[0]](null, singleCommand.slice(1), done);
+  command[singleCommand](null, singleComArgs, done);
 });
 
