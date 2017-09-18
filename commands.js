@@ -23,12 +23,12 @@ module.exports = {
   },
 
   echo: function(stdin, args, done) {
-      var input = args ? args.join(' ') : stdin;
+      var input = args.length > 0 ? args.join(' ') : stdin;
       done(input);
   },
 
   cat: function(stdin, filename, done) {
-    if (filename){
+    if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
         done(files);
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   head: function(stdin, filename, done) {
-    if (filename){
+    if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
         var temp = files.toString().split('\n');
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   tail: function(stdin, filename, done) {
-    if (filename){
+    if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
         var temp = files.toString().split('\n');
@@ -69,7 +69,7 @@ module.exports = {
   }, // skipped implementing sort and uniq
 
   wc: function(stdin, filename, done) {
-    if (filename){
+    if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
         var temp = files.toString().split('\n');
