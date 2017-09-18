@@ -8,6 +8,8 @@ process.stdout.write(prompt);
 
 //The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', function (data) {
+  //  REVIEW VIDEO: handles incorrect input with
+  //  command not found error
   let commandNum = 0;
   const cmdString = data.toString().trim();
   const cmdList = cmdString.split(/\s*\|\s*/g); // any amount of whitespace, pipe, any amount of whitespace

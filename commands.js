@@ -24,14 +24,22 @@ module.exports = {
   });
   },
 
+  // REVIEW VIDEO: they made updates to deal with $ and paths
+  // We're not doing that
   echo: (stdin, args, done) => {
       const input = args.length > 0 ? args.join(' ') : stdin;
       done(input);
   },
 
+  //  REVIEW VIDEO: they created cat, head and tail to deal with
+  //  multiple file names
+  //  REVIEW VIDEO: added encoding: utf8 in cat which tells readFile
+  //  how to decode the file
+      // using utf8 makes it return a string instead of a buffer
+      // it's equivalent to leaving it out and then doing .toString()
   cat: function(stdin, filename, done) {
     if (filename[0]){
-      fs.readFile(filename[0], function(err, files) {
+      fs.readFile(filename[0], {encoding: 'utf8'}, function(err, files) {
         if (err) throw err;
         done(files);
       });
