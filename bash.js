@@ -1,20 +1,23 @@
 // Output a prompt
-var command = require('./commands.js');
-process.stdout.write('prompt > ');
+const command = require('./commands.js');
+const chalk = require('chalk');
+// REVIEW VIDEO: could leave off .js
+const prompt = chalk.cyan('\nprompt > ');
+process.stdout.write(prompt);
 
 
 //The stdin 'data' event fires after a user types in a line
 process.stdin.on('data', function (data) {
-  var commandNum = 0;
-  var cmdString = data.toString().trim();
-  var cmdList = cmdString.split(/\s*\|\s*/g); // any amount of whitespace, pipe, any amount of whitespace
-  var singleCommand = cmdList[commandNum].split(' ');
+  let commandNum = 0;
+  const cmdString = data.toString().trim();
+  const cmdList = cmdString.split(/\s*\|\s*/g); // any amount of whitespace, pipe, any amount of whitespace
+  let singleCommand = cmdList[commandNum].split(' ');
 
 
-  var done = function(output){
+  const done = function(output){
     if (commandNum === cmdList.length - 1) {
       process.stdout.write(output);
-      process.stdout.write('\nprompt > ');
+      process.stdout.write(prompt);
     } else {
       commandNum++;
       singleCommand = cmdList[commandNum].split(' ');

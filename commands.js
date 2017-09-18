@@ -1,18 +1,20 @@
-var fs = require('fs');
-var request = require('request');
+const fs = require('fs');
+const request = require('request');
 
 module.exports = {
+  /* REVIEW VIDEO: could also define the functions outside of
+   * modules.export and then in modules.export
+   * do pwd: pwd, date: date, etc...
+   */
 
-  pwd: function(stdin, file, done) {
-    done(process.argv[1]);
-  },
+  pwd: (stdin, file, done) => done(process.argv[1]),
+    //REVIEW VIDEO: or process.cwd();
 
-  date: function(stdin, file, done) {
-    done(Date().toString());
-  },
+  date: (stdin, file, done) => done(Date().toString()),
+    //REVIEW VIDEO: just Date()
 
   ls: function(stdin, file, done) {
-    var output = '';
+    let output = '';
     fs.readdir('.', function(err, files) {
       if (err) throw err;
       files.forEach(function(file) {
@@ -22,8 +24,8 @@ module.exports = {
   });
   },
 
-  echo: function(stdin, args, done) {
-      var input = args.length > 0 ? args.join(' ') : stdin;
+  echo: (stdin, args, done) => {
+      const input = args.length > 0 ? args.join(' ') : stdin;
       done(input);
   },
 
@@ -42,13 +44,13 @@ module.exports = {
     if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
-        var temp = files.toString().split('\n');
-        var firstFive = temp.slice(0, 5).join('\n');
+        const temp = files.toString().split('\n');
+        const firstFive = temp.slice(0, 5).join('\n');
         done(firstFive);
       });
     } else {
-      var temp = stdin.toString().split('\n');
-      var firstFive = temp.slice(0, 5).join('\n');
+      const temp = stdin.toString().split('\n');
+      const firstFive = temp.slice(0, 5).join('\n');
       done(firstFive);
     }
   },
@@ -57,13 +59,13 @@ module.exports = {
     if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
-        var temp = files.toString().split('\n');
-        var lastFive = temp.slice(temp.length - 5, temp.length).join('\n');
+        const temp = files.toString().split('\n');
+        const lastFive = temp.slice(temp.length - 5, temp.length).join('\n');
         done(lastFive);
       });
     } else {
-      var temp = stdin.toString().split('\n');
-      var lastFive = temp.slice(temp.length - 5, temp.length).join('\n');
+      const temp = stdin.toString().split('\n');
+      const lastFive = temp.slice(temp.length - 5, temp.length).join('\n');
       done(lastFive);
     }
   }, // skipped implementing sort and uniq
@@ -72,13 +74,13 @@ module.exports = {
     if (filename[0]){
       fs.readFile(filename[0], function(err, files) {
         if (err) throw err;
-        var temp = files.toString().split('\n');
-        var length = temp.length.toString();
+        const temp = files.toString().split('\n');
+        const length = temp.length.toString();
         done(length);
       });
     } else {
-      var temp = stdin.toString().split('\n');
-      var length = temp.length.toString();
+      const temp = stdin.toString().split('\n');
+      const length = temp.length.toString();
       done(length);
     }
   },

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/cmccarthy15/node-shell#readme",
   "dependencies": {
+    "chalk": "^2.1.0",
     "request": "^2.81.0"
   }
 }
