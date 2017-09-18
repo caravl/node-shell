@@ -1,54 +1,63 @@
 var fs = require('fs');
+var request = require('request');
 
 module.exports = {
 
-  pwd: function() {
-    process.stdout.write(process.argv[1]);
-    process.stdout.write('\nprompt > ');
+  pwd: function(stdin, file, done) {
+    done(process.argv[1]);
   },
-  date: function() {
-    process.stdout.write(Date().toString());
-    process.stdout.write('\nprompt > ');
+  date: function(stdin, file, done) {
+    done(Date().toString());
   },
-  ls: function() {fs.readdir('.', function(err, files) {
-    if (err) throw err;
-    files.forEach(function(file) {
-    process.stdout.write(file.toString() + "\n");
+  ls: function(stdin, file, done) {
+    var output = '';
+    fs.readdir('.', function(err, files) {
+      if (err) throw err;
+      files.forEach(function(file) {
+        output += file.toString() + '/n';
+      });
+      done(output);
   });
-      process.stdout.write('\nprompt > ');
-  })
   },
-  echo: function(args) {
-    process.stdout.write(args.join(' '));
-    process.stdout.write('\nprompt > ');
+  echo: function(stdin, args, done) {
+    done(args.join(' '));
   },
-  cat: function(filename) {
-    // process.stdout.write(filename[0]);
+  cat: function(stdin, filename, done) {
     fs.readFile(filename[0], function(err, files) {
       if (err) throw err;
-      process.stdout.write(files + '\nprompt > ');
-    })
+      done(files);
+    });
   },
-  head: function(filename) {
+  head: function(stdin, filename, done) {
     fs.readFile(filename[0], function(err, files) {
       if (err) throw err;
       var temp = files.toString().split('\n');
-      process.stdout.write(temp.slice(0,5).join('\n') + '\nprompt > ');
-    })
+      var firstFive = temp.slice(0, 5).join('\n');
+      done(firstFive);
+    });
   },
-  tail: function(filename) {
+  tail: function(stdin, filename, done) {
     fs.readFile(filename[0], function(err, files) {
       if (err) throw err;
       var temp = files.toString().split('\n');
-      process.stdout.write(temp.slice(temp.length-5, temp.length).join('\n') + '\nprompt > ');
-    })
-  }, // skipped implementing sort and uniq 
-  wc: function(filename) {
+      var lastFive = temp.slice(temp.length - 5, temp.length).join('\n');
+      done(lastFive);
+    });
+  }, // skipped implementing sort and uniq
+  wc: function(stdin, filename, done) {
     fs.readFile(filename[0], function(err, files) {
       if (err) throw err;
       var temp = files.toString().split('\n');
-      process.stdout.write(temp.length + '\nprompt > ');
-    })
+      var length = temp.length.toString();
+      done(length);
+    });
+  },
+  curl: function(stdin, urlNameArray, done){
+    request(urlNameArray[0], function(err, response, body){
+      if (err){ throw err; }
+      if (body){ done(body);}
+    });
   },
 
-}
+
+};
